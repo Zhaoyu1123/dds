@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"runtime"
+	"strings"
 	"testing"
 	"time"
 
@@ -47,7 +48,7 @@ func TestExample(t *testing.T) {
 	backend := redis.NewClusterClient(o)
 	job.SetBackend(backend)
 	client, err := clientv3.New(clientv3.Config{
-		Endpoints:   []string{""},
+		Endpoints:   []string{os.Getenv("ETCD_ENDPOINTS")},
 		DialTimeout: 5 * time.Second,
 	})
 	require.Nil(t, err)
@@ -58,11 +59,11 @@ func TestExample(t *testing.T) {
 	require.Nil(t, err)
 
 	dds, err := New(exit, logger, backend, currentNode, mq.Config{
-		Brokers:  nil,
-		Topic:    "",
-		GroupId:  "",
-		Username: "",
-		Password: "",
+		Brokers:  strings.Split(os.Getenv("KAFKA_BROKERS"), ","),
+		Topic:    os.Getenv("KAFKA_TOPIC"),
+		GroupId:  os.Getenv("KAFKA_GROUP_ID"),
+		Username: os.Getenv("KAFKA_USERNAME"),
+		Password: os.Getenv("KAFKA_PASSWORD"),
 	})
 	require.Nil(t, err)
 

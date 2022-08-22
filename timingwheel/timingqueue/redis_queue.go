@@ -37,7 +37,7 @@ func New(exit chan struct{}, backend *redis.ClusterClient, logger *zap.Logger) (
 		timer: time.NewTimer(0),
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result, err := q.backend.ZRangeWithScores(ctx, key, 0, 0).Result()
 	if err != nil {
