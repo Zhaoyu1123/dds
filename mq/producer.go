@@ -39,6 +39,10 @@ type producer struct {
 	writer *kafka.Writer
 }
 
+func (p *producer) Close() {
+	p.writer.Close()
+}
+
 func (p *producer) Product(ctx context.Context, value []byte) error {
 	return p.writer.WriteMessages(ctx, kafka.Message{
 		Value: value,

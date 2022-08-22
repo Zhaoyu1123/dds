@@ -6,6 +6,7 @@ import (
 
 type Producer interface {
 	Product(ctx context.Context, value []byte) error
+	Close()
 }
 
 type Consumer interface {

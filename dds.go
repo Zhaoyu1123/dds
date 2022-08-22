@@ -101,6 +101,7 @@ func (ds *DDS) start() {
 			ds.setState(true)
 		case <-ds.exit:
 			ds.logger.Info("[DDS] start exit")
+			ds.release()
 			return
 		}
 	}
@@ -201,13 +202,13 @@ func (ds *DDS) release() {
 		ds.client = nil
 	}
 
-	if ds.tw != nil {
+	if ds.internalExit != nil {
 		close(ds.internalExit)
-		ds.tw = nil
 		ds.internalExit = nil
 	}
 
 	if ds.producer != nil {
+		ds.producer.Close()
 		ds.producer = nil
 	}
 

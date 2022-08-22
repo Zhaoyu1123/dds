@@ -74,4 +74,7 @@ func TestExample(t *testing.T) {
 	require.Nil(t, err)
 	t.Log(id)
 	time.Sleep(10 * time.Second)
+
+	close(exit)
+	time.Sleep(20 * time.Second)
 }
