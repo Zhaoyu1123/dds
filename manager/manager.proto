@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "./manager";
+
+package proto;
+
+import "google/protobuf/empty.proto";
+
+service Manager {
+  rpc Add(AddRequest) returns (AddReply) {}
+  rpc Delete(DeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+message AddRequest {
+  bytes  Data = 1;
+  string Spec = 2;
+}
+
+message AddReply {
+  string Id = 1;
+}
+
+message DeleteRequest {
+  string Id = 1;
+}
